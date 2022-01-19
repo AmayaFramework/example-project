@@ -7,6 +7,7 @@ import io.github.amayaframework.core.controllers.Endpoint;
 import io.github.amayaframework.core.methods.Get;
 import io.github.amayaframework.core.methods.Post;
 import io.github.amayaframework.core.wrapping.Body;
+import io.github.amayaframework.core.wrapping.Header;
 import io.github.amayaframework.core.wrapping.Path;
 import io.github.amayaframework.gson.Entity;
 
@@ -16,7 +17,8 @@ import static io.github.amayaframework.core.contexts.Responses.ok;
 @Entity(Data.class)
 public class MyController extends AbstractController {
     @Get("/{count:int}")
-    public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
+    public HttpResponse get(HttpRequest request, @Path("count") Integer count, @Header("Postman-Token") String header) {
+        System.out.println("Hello, postman with token " + header);
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < count; ++i) {
