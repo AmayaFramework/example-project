@@ -25,6 +25,14 @@ public class MyController extends AbstractController {
         return ok(response);
     }
 
+    @Get
+    public HttpResponse postmanToken(HttpRequest request) {
+        StringBuilder answer = new StringBuilder();
+        answer.append("Hello, Postman! Your token is ").
+                append(request.getHeader("Postman-Token"));
+        return ok(answer);
+    }
+
     @Post
     public HttpResponse post(HttpRequest request, @Body Data body) {
         body.setLeft(body.getLeft() - 5);
