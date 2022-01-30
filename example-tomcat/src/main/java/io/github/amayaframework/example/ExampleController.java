@@ -1,4 +1,4 @@
-package com.github.romanqed.myserver;
+package io.github.amayaframework.example;
 
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
@@ -10,12 +10,12 @@ import io.github.amayaframework.core.wrapping.Body;
 import io.github.amayaframework.core.wrapping.Path;
 import io.github.amayaframework.gson.Entity;
 
-import static io.github.amayaframework.core.contexts.Responses.ok;
+import static io.github.amayaframework.core.contexts.Responses.*;
 
-@Endpoint("/my-end-point")
-@Entity(Data.class)
-public class MyController extends AbstractController {
-    @Get("/{count:int}")
+@Endpoint
+@Entity(CalcData.class)
+public class ExampleController extends AbstractController {
+    @Get("/hello/{count:int}")
     public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
@@ -33,10 +33,16 @@ public class MyController extends AbstractController {
         return ok(answer);
     }
 
-    @Post
-    public HttpResponse post(HttpRequest request, @Body Data body) {
-        body.setLeft(body.getLeft() - 5);
-        body.setRight(body.getRight() - 10);
-        return ok(body);
+    @Post("/calc")
+    public HttpResponse calculate(HttpRequest request, @Body CalcData data) {
+        double res;
+        try {
+            res = data.calculate();
+        } catch (IllegalArgumentException e) {
+            return badRequest("Divide by zero!");
+        } catch (UnsupportedOperationException e) {
+            return badRequest("Unknown operation!");
+        }
+        return ok("Answer is: " + res);
     }
 }

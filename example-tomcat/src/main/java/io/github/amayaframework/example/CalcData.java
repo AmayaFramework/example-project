@@ -1,4 +1,4 @@
-package com.github.romanqed.myserver;
+package io.github.amayaframework.example;
 
 public class CalcData {
     private double left;
