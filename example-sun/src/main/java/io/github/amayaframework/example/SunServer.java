@@ -14,7 +14,7 @@ public class SunServer {
         AmayaConfig.INSTANCE.setDebug(false);
         HttpServer server = new AmayaBuilder().
                 bind(8080).
-                addConfigurator(new GsonConfigurator(false)).
+                addConfigurator(new GsonConfigurator()).
                 build();
         server.start();
     }
