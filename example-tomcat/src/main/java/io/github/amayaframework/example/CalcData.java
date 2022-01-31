@@ -1,9 +1,20 @@
 package io.github.amayaframework.example;
 
 public class CalcData {
-    private double left;
-    private double right;
+    private final double left;
+    private final double right;
     private Operation operation;
+
+    public CalcData() {
+        left = 0;
+        right = 0;
+    }
+
+    public CalcData(String left, String right, String operation) {
+        this.left = Double.parseDouble(left);
+        this.right = Double.parseDouble(right);
+        this.operation = Operation.valueOf(operation);
+    }
 
     public double calculate() {
         if (operation == null) {
