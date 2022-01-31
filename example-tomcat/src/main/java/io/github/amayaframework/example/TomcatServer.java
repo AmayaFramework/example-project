@@ -13,7 +13,7 @@ public class TomcatServer {
         AmayaConfig.INSTANCE.setDebug(false);
         Tomcat tomcat = new AmayaBuilder().
                 bind(8080).
-                addConfigurator(new GsonConfigurator(false)).
+                addConfigurator(new GsonConfigurator()).
                 build();
         tomcat.start();
         tomcat.getServer().await();

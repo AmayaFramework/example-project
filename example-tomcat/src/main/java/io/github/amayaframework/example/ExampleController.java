@@ -13,7 +13,6 @@ import io.github.amayaframework.gson.Entity;
 import static io.github.amayaframework.core.contexts.Responses.*;
 
 @Endpoint
-@Entity(CalcData.class)
 public class ExampleController extends AbstractController {
     @Get("/hello/{count:int}")
     public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
@@ -34,6 +33,7 @@ public class ExampleController extends AbstractController {
     }
 
     @Post("/calc")
+    @Entity(CalcData.class)
     public HttpResponse calculate(HttpRequest request, @Body CalcData data) {
         double res;
         try {
