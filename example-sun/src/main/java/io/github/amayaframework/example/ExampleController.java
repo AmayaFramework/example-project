@@ -2,6 +2,7 @@ package io.github.amayaframework.example;
 
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
+import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.AbstractController;
 import io.github.amayaframework.core.controllers.Endpoint;
 import io.github.amayaframework.core.methods.Get;
@@ -9,9 +10,7 @@ import io.github.amayaframework.core.methods.Post;
 import io.github.amayaframework.core.wrapping.Body;
 import io.github.amayaframework.core.wrapping.Path;
 import io.github.amayaframework.gson.Entity;
-
-import static io.github.amayaframework.core.contexts.Responses.badRequest;
-import static io.github.amayaframework.core.contexts.Responses.ok;
+import io.github.amayaframework.gson.JsonResponses;
 
 @Endpoint
 public class ExampleController extends AbstractController {
@@ -22,7 +21,7 @@ public class ExampleController extends AbstractController {
         for (int i = 0; i < count; ++i) {
             response.append(helloWorld).append('\n');
         }
-        return ok(response);
+        return Responses.ok(response);
     }
 
     @Get
@@ -30,7 +29,7 @@ public class ExampleController extends AbstractController {
         StringBuilder answer = new StringBuilder();
         answer.append("Hello, Postman! Your token is ").
                 append(request.getHeader("Postman-Token"));
-        return ok(answer);
+        return Responses.ok(answer);
     }
 
     @Post("/calc")
@@ -40,10 +39,10 @@ public class ExampleController extends AbstractController {
         try {
             res = data.calculate();
         } catch (IllegalArgumentException e) {
-            return badRequest("Divide by zero!");
+            return JsonResponses.badRequest("Divide by zero!");
         } catch (UnsupportedOperationException e) {
-            return badRequest("Unknown operation!");
+            return JsonResponses.badRequest("Unknown operation!");
         }
-        return ok("Answer is: " + res);
+        return JsonResponses.ok("Answer is: " + res);
     }
 }
