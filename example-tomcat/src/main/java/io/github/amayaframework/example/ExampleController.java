@@ -10,6 +10,7 @@ import io.github.amayaframework.core.wrapping.Body;
 import io.github.amayaframework.core.wrapping.Path;
 import io.github.amayaframework.core.wrapping.Query;
 import io.github.amayaframework.gson.Entity;
+import io.github.amayaframework.gson.JsonResponses;
 
 import static io.github.amayaframework.core.contexts.Responses.badRequest;
 import static io.github.amayaframework.core.contexts.Responses.ok;
@@ -50,7 +51,7 @@ public class ExampleController extends HttpController {
         } catch (UnsupportedOperationException e) {
             return badRequest("Unknown operation!");
         }
-        return ok("Answer is: " + res);
+        return JsonResponses.ok("Answer is: " + res);
     }
 
     @Get("/calc")
