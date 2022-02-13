@@ -3,8 +3,8 @@ package io.github.amayaframework.example;
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
 import io.github.amayaframework.core.contexts.Responses;
-import io.github.amayaframework.core.controllers.AbstractController;
 import io.github.amayaframework.core.controllers.Endpoint;
+import io.github.amayaframework.core.controllers.HttpController;
 import io.github.amayaframework.core.methods.Get;
 import io.github.amayaframework.core.methods.Post;
 import io.github.amayaframework.core.wrapping.Body;
@@ -13,7 +13,7 @@ import io.github.amayaframework.gson.Entity;
 import io.github.amayaframework.gson.JsonResponses;
 
 @Endpoint
-public class ExampleController extends AbstractController {
+public class ExampleController extends HttpController {
     @Get("/hello/{count:int}")
     public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
         String helloWorld = "Hello, world!";
