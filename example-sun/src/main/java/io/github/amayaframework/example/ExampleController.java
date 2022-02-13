@@ -15,7 +15,7 @@ import io.github.amayaframework.gson.JsonResponses;
 @Endpoint
 public class ExampleController extends HttpController {
     @Get("/hello/{count:int}")
-    public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
+    public HttpResponse get(HttpRequest request, @Path Integer count) {
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < count; ++i) {
