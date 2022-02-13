@@ -2,8 +2,8 @@ package io.github.amayaframework.example;
 
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
-import io.github.amayaframework.core.controllers.AbstractController;
 import io.github.amayaframework.core.controllers.Endpoint;
+import io.github.amayaframework.core.controllers.HttpController;
 import io.github.amayaframework.core.methods.Get;
 import io.github.amayaframework.core.methods.Post;
 import io.github.amayaframework.core.wrapping.Body;
@@ -15,9 +15,9 @@ import static io.github.amayaframework.core.contexts.Responses.badRequest;
 import static io.github.amayaframework.core.contexts.Responses.ok;
 
 @Endpoint
-public class ExampleController extends AbstractController {
+public class ExampleController extends HttpController {
     @Get("/hello/{count:int}")
-    public HttpResponse get(HttpRequest request, @Path("count") Integer count) {
+    public HttpResponse get(HttpRequest request, @Path Integer count) {
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < count; ++i) {
@@ -54,7 +54,7 @@ public class ExampleController extends AbstractController {
     }
 
     @Get("/calc")
-    public HttpResponse query(HttpRequest request, @Query("a") String a, @Query("b") String b, @Query("op") String op) {
+    public HttpResponse query(HttpRequest request, @Query String a, @Query String b, @Query String op) {
         if (a == null || b == null || op == null) {
             return badRequest();
         }
