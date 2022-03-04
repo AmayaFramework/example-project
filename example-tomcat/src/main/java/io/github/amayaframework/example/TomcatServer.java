@@ -11,9 +11,8 @@ import org.apache.log4j.BasicConfigurator;
 public class TomcatServer {
     public static void main(String[] args) throws LifecycleException {
         BasicConfigurator.configure();
-        AmayaConfig config = new AmayaConfig();
+        AmayaConfig config = ConfigProvider.getConfig();
         config.setDebug(false);
-        ConfigProvider.setConfig(config);
         Tomcat tomcat = new AmayaBuilder().
                 bind(8080).
                 addConfigurator(new GsonConfigurator()).
