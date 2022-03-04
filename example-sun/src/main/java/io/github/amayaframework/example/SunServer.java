@@ -12,9 +12,8 @@ import java.io.IOException;
 public class SunServer {
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
-        AmayaConfig config = new AmayaConfig();
+        AmayaConfig config = ConfigProvider.getConfig();
         config.setDebug(false);
-        ConfigProvider.setConfig(config);
         HttpServer server = new AmayaBuilder().
                 bind(8080).
                 addConfigurator(new GsonConfigurator()).
