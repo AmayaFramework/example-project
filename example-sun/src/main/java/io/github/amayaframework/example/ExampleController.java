@@ -6,6 +6,7 @@ import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
 import io.github.amayaframework.core.controllers.HttpController;
 import io.github.amayaframework.core.methods.Get;
+import io.github.amayaframework.core.methods.Post;
 import io.github.amayaframework.core.wrapping.Path;
 
 @Endpoint
@@ -26,5 +27,12 @@ public class ExampleController extends HttpController {
         answer.append("Hello, Postman! Your token is ").
                 append(request.getHeader("Postman-Token"));
         return Responses.ok(answer);
+    }
+
+    @Post
+    public HttpResponse post(HttpRequest request) {
+        System.out.println(request.getContentType());
+        System.out.println(request.getBody());
+        return Responses.ok();
     }
 }
