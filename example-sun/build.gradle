@@ -16,6 +16,6 @@ repositories {
 dependencies {
     annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.4'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.35'
-    implementation group: 'io.github.amayaframework', name: 'core-api', version: '4.0.0'
+    implementation group: 'io.github.amayaframework', name: 'core-api', version: '4.1.0'
     implementation group: 'io.github.amayaframework', name: 'core-sun', version: '4.0.0'
 }
