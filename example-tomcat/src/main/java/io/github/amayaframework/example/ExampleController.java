@@ -3,16 +3,15 @@ package io.github.amayaframework.example;
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
 import io.github.amayaframework.core.controllers.Endpoint;
-import io.github.amayaframework.core.controllers.HttpController;
+import io.github.amayaframework.core.inject.Path;
+import io.github.amayaframework.core.inject.Query;
 import io.github.amayaframework.core.methods.Get;
-import io.github.amayaframework.core.wrapping.Path;
-import io.github.amayaframework.core.wrapping.Query;
 
 import static io.github.amayaframework.core.contexts.Responses.badRequest;
 import static io.github.amayaframework.core.contexts.Responses.ok;
 
 @Endpoint
-public class ExampleController extends HttpController {
+public class ExampleController {
     @Get("/hello/{count:int}")
     public HttpResponse get(HttpRequest request, @Path Integer count) {
         String helloWorld = "Hello, world!";
