@@ -4,13 +4,13 @@ import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
 import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
-import io.github.amayaframework.core.controllers.HttpController;
+import io.github.amayaframework.core.inject.Header;
+import io.github.amayaframework.core.inject.Path;
 import io.github.amayaframework.core.methods.Get;
 import io.github.amayaframework.core.methods.Post;
-import io.github.amayaframework.core.wrapping.Path;
 
 @Endpoint
-public class ExampleController extends HttpController {
+public class ExampleController {
     @Get("/hello/{count:int}")
     public HttpResponse get(HttpRequest request, @Path Integer count) {
         String helloWorld = "Hello, world!";
@@ -22,11 +22,8 @@ public class ExampleController extends HttpController {
     }
 
     @Get
-    public HttpResponse postmanToken(HttpRequest request) {
-        StringBuilder answer = new StringBuilder();
-        answer.append("Hello, Postman! Your token is ").
-                append(request.getHeader("Postman-Token"));
-        return Responses.ok(answer);
+    public HttpResponse postmanToken(HttpRequest request, @Header("Postman-Token") String token) {
+        return Responses.ok("Hello, Postman! Your token is " + token);
     }
 
     @Post
