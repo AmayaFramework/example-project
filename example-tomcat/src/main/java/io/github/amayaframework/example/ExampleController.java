@@ -2,10 +2,14 @@ package io.github.amayaframework.example;
 
 import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
+import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
+import io.github.amayaframework.core.inject.Body;
 import io.github.amayaframework.core.inject.Path;
 import io.github.amayaframework.core.inject.Query;
 import io.github.amayaframework.core.methods.Get;
+import io.github.amayaframework.core.methods.Post;
+import io.github.amayaframework.serializer.Entity;
 
 import static io.github.amayaframework.core.contexts.Responses.badRequest;
 import static io.github.amayaframework.core.contexts.Responses.ok;
@@ -47,5 +51,17 @@ public class ExampleController {
             return badRequest();
         }
         return ok("Answer is " + res);
+    }
+
+    @Post("/calc")
+    @Entity(CalcData.class)
+    public HttpResponse calc(HttpRequest request, @Body CalcData data) {
+        double answer;
+        try {
+            answer = data.calculate();
+        } catch (Exception e) {
+            return Responses.badRequest();
+        }
+        return Responses.ok(answer);
     }
 }
