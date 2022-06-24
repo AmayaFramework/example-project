@@ -12,7 +12,7 @@ import io.github.amayaframework.core.methods.Post;
 @Endpoint
 public class ExampleController {
     @Get("/hello/{count:int}")
-    public HttpResponse get(HttpRequest request, @Path Integer count) {
+    public HttpResponse get(@Path Integer count) {
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < count; ++i) {
@@ -21,8 +21,13 @@ public class ExampleController {
         return Responses.ok(response);
     }
 
+    @Get("/hello")
+    public HttpResponse hello() {
+        return Responses.ok("Hi from Amaya!");
+    }
+
     @Get
-    public HttpResponse postmanToken(HttpRequest request, @Header("Postman-Token") String token) {
+    public HttpResponse postmanToken(@Header("Postman-Token") String token) {
         return Responses.ok("Hello, Postman! Your token is " + token);
     }
 
