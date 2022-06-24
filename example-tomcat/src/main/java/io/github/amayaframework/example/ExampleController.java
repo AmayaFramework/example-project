@@ -1,10 +1,10 @@
 package io.github.amayaframework.example;
 
-import io.github.amayaframework.core.contexts.HttpRequest;
 import io.github.amayaframework.core.contexts.HttpResponse;
 import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
 import io.github.amayaframework.core.inject.Body;
+import io.github.amayaframework.core.inject.Header;
 import io.github.amayaframework.core.inject.Path;
 import io.github.amayaframework.core.inject.Query;
 import io.github.amayaframework.core.methods.Get;
@@ -17,7 +17,7 @@ import static io.github.amayaframework.core.contexts.Responses.ok;
 @Endpoint
 public class ExampleController {
     @Get("/hello/{count:int}")
-    public HttpResponse get(HttpRequest request, @Path Integer count) {
+    public HttpResponse get(@Path Integer count) {
         String helloWorld = "Hello, world!";
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < count; ++i) {
@@ -27,20 +27,17 @@ public class ExampleController {
     }
 
     @Get("/hello")
-    public HttpResponse hello(HttpRequest request) {
+    public HttpResponse hello() {
         return ok("Hello, client! ^_^");
     }
 
     @Get
-    public HttpResponse postmanToken(HttpRequest request) {
-        StringBuilder answer = new StringBuilder();
-        answer.append("Hello, Postman! Your token is ").
-                append(request.getHeader("Postman-Token"));
-        return ok(answer);
+    public HttpResponse postmanToken(@Header("Postman-Token") String token) {
+        return ok("Hello, Postman! Your token is " + token);
     }
 
     @Get("/calc")
-    public HttpResponse query(HttpRequest request, @Query String a, @Query String b, @Query String op) {
+    public HttpResponse query(@Query String a, @Query String b, @Query String op) {
         if (a == null || b == null || op == null) {
             return badRequest();
         }
@@ -55,7 +52,7 @@ public class ExampleController {
 
     @Post("/calc")
     @Entity(CalcData.class)
-    public HttpResponse calc(HttpRequest request, @Body CalcData data) {
+    public HttpResponse calc(@Body CalcData data) {
         double answer;
         try {
             answer = data.calculate();
