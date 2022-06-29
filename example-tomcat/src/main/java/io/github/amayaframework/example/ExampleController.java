@@ -1,5 +1,6 @@
 package io.github.amayaframework.example;
 
+import com.github.romanqed.util.IOUtil;
 import io.github.amayaframework.core.contexts.HttpResponse;
 import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
@@ -9,7 +10,11 @@ import io.github.amayaframework.core.inject.Path;
 import io.github.amayaframework.core.inject.Query;
 import io.github.amayaframework.core.methods.Get;
 import io.github.amayaframework.core.methods.Post;
+import io.github.amayaframework.http.ContentType;
 import io.github.amayaframework.serializer.Entity;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static io.github.amayaframework.core.contexts.Responses.badRequest;
 import static io.github.amayaframework.core.contexts.Responses.ok;
@@ -60,5 +65,40 @@ public class ExampleController {
             return Responses.badRequest();
         }
         return Responses.ok(answer);
+    }
+
+    @Get("/hello_file")
+    public HttpResponse helloFile() {
+        HttpResponse ret = ok();
+        ret.setHeader("Content-Disposition", "filename=\"hello.txt\"");
+        ret.setOutputStreamHandler(stream -> {
+            String file = IOUtil.readResourceFile("hello.txt");
+            byte[] bytes = file.getBytes(StandardCharsets.UTF_8);
+            stream.specifyLength(bytes.length);
+            stream.write(bytes);
+        });
+        return ret;
+    }
+
+    @Get("/test_file")
+    public HttpResponse testFile() {
+        HttpResponse ret = ok();
+        ret.setContentType(ContentType.PNG);
+        ret.setHeader("Content-Disposition", "filename=\"test.png\"");
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        final InputStream input = classLoader.getResourceAsStream("test.png");
+        if (input == null) {
+            return Responses.notFound("File not found");
+        }
+        ret.setOutputStreamHandler(stream -> {
+            byte[] bytes = new byte[input.available()];
+            if (input.read(bytes) < 0) {
+                throw new IllegalStateException();
+            }
+            input.close();
+            stream.specifyLength(bytes.length);
+            stream.write(bytes);
+        });
+        return ret;
     }
 }
