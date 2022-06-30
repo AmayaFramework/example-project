@@ -2,7 +2,6 @@ package io.github.amayaframework.example;
 
 import com.github.romanqed.util.IOUtil;
 import io.github.amayaframework.core.contexts.HttpResponse;
-import io.github.amayaframework.core.contexts.Responses;
 import io.github.amayaframework.core.controllers.Endpoint;
 import io.github.amayaframework.core.inject.Body;
 import io.github.amayaframework.core.inject.Header;
@@ -16,8 +15,7 @@ import io.github.amayaframework.serializer.Entity;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static io.github.amayaframework.core.contexts.Responses.badRequest;
-import static io.github.amayaframework.core.contexts.Responses.ok;
+import static io.github.amayaframework.core.contexts.Responses.*;
 
 @Endpoint
 public class ExampleController {
@@ -62,9 +60,9 @@ public class ExampleController {
         try {
             answer = data.calculate();
         } catch (Exception e) {
-            return Responses.badRequest();
+            return badRequest();
         }
-        return Responses.ok(answer);
+        return ok(answer);
     }
 
     @Get("/hello_file")
@@ -88,7 +86,7 @@ public class ExampleController {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         final InputStream input = classLoader.getResourceAsStream("test.png");
         if (input == null) {
-            return Responses.notFound("File not found");
+            return notFound("File not found");
         }
         ret.setOutputStreamHandler(stream -> {
             byte[] bytes = new byte[input.available()];
